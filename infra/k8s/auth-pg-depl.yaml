@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: task-manging-auth-postgres-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: task-manging-auth-postgres
+  template:
+    metadata:
+      labels:
+        app: task-manging-auth-postgres
+    spec:
+      containers:
+        - name: task-manging-auth-postgres
+          image: postgres:16-alpine
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_USER
+              value: "postgres"
+            - name: POSTGRES_PASSWORD
+              value: "postgres"
+            - name: POSTGRES_DB
+              value: "auth_db"
+          volumeMounts:
+            - name: postgres-storage
+              mountPath: /var/lib/postgresql/data
+              subPath: postgres
+      volumes:
+        - name: postgres-storage
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: task-manging-auth-postgres-srv
+spec:
+  selector:
+    app: task-manging-auth-postgres
+  ports:
+    - name: db
+      protocol: TCP
+      port: 5432
+      targetPort: 5432
