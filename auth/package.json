@@ -5,12 +5,13 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "ts-node-dev --poll src/index.ts"
+    "start": "ts-node-dev --poll src/index.ts",
+    "start-pub": "ts-node-dev src/events/user-creation-publisher.ts"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@rpticketsproject/task-managing-common": "^1.0.2",
+    "@rpticketsproject/task-managing-common": "^1.0.4",
     "@types/cookie-session": "^2.0.49",
     "@types/express": "^5.0.3",
     "@types/jsonwebtoken": "^9.0.10",

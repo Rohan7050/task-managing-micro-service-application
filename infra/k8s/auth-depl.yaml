@@ -35,7 +35,14 @@ spec:
           - name: NODE_ENV
             value: prod
           - name: RABBITMQ_URL
-            value: amqp://rabbitmq-svc
+            value: rabbitmq-svc
+          - name: RABBITMQ_USER
+            value: guest
+          - name: RABBITMQ_PASS
+            value: guest
+          - name: RABBITMQ_PORT
+            value: "5672"
+
         ports:
         - containerPort: 3000
 ---

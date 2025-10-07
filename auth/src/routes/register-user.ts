@@ -4,6 +4,8 @@ import { JWTToken } from "../services/jwt";
 import { AppDataSource } from "../config/data-source";
 import { body } from "express-validator";
 import { validateRequest, BadRequestError } from "@rpticketsproject/task-managing-common";
+import { UserCreationPublisher } from "../events/user-creation-publisher";
+import { rabbitMQWrapper } from "../rabbitMQ-wrapper";
 
 const router = express.Router();
 
@@ -23,7 +25,10 @@ router.post("/api/user/register", [
   user.password = password;
 
   const newUser = await userRepository.save(user);
-
+  // emit event of user creation
+  const userPublisher = new UserCreationPublisher(rabbitMQWrapper.channel);
+  await userPublisher.init();
+  userPublisher.publish({id: newUser.id, email: newUser.email})
   const userJwt = JWTToken.create(
     newUser.id,
     newUser.email,
