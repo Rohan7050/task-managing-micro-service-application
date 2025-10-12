@@ -1,12 +1,11 @@
-import { BadRequestError, currentUser, requireAuth, validateRequest } from "@rpticketsproject/task-managing-common";
-import { User } from "../../model/user";
+import { BadRequestError, currentUser, hasAdminAccess, requireAuth, validateRequest } from "@rpticketsproject/task-managing-common";
 import express, {Request, Response} from "express";
 import { body } from "express-validator";
 import { Board } from "../../model/board";
 
 const router = express.Router();
 
-router.put("/api/board/:id", currentUser, requireAuth, [
+router.put("/api/board/:id", currentUser, requireAuth, hasAdminAccess, [
     body('name').isString().isLength({max: 20, min: 5}).withMessage("must be string, max 20 charactors and minimum 5 charactors"),
     body('desc').optional().isString().withMessage("Must be string")
 ], validateRequest, async (req: Request, res: Response) => {
