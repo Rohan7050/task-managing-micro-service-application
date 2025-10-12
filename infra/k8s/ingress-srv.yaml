@@ -17,3 +17,10 @@ spec:
                 name: task-manging-auth-srv
                 port:
                   number: 3000
+          - path: /api/board/?(.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: task-manging-board-srv
+                port:
+                  number: 3000

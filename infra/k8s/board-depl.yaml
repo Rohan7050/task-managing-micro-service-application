@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: task-manging-auth
+  name: task-manging-board
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: task-manging-auth
+      app: task-manging-board
   template:
     metadata:
       labels:
-        app: task-manging-auth
+        app: task-manging-board
     spec:
       initContainers:
         - name: wait-for-rabbitmq
@@ -22,23 +22,15 @@ spec:
             - name: RABBITMQ_PORT
               value: "5672"
       containers:
-      - name: task-manging-auth
-        image: rohanpagare75/task-manging-auth
+      - name: task-manging-board
+        image: rohanpagare75/task-manging-board
         env: 
           - name: COK_KEY
             value: 'badawuidnauiwhndaiwnd'
           - name: PORT
             value: "3000"
-          - name: DB_HOST
-            value: 'task-manging-auth-postgres-srv'
-          - name: DB_PORT
-            value: "5432"
-          - name: DB_USER
-            value: postgres
-          - name: DB_PASS
-            value: postgres
-          - name: DB_NAME
-            value: auth_db
+          - name: MONGO_URI
+            value: 'mongodb://task-manging-board-mongo-srv:27017/board_db'
           - name: JWT_KEY
             value: 'andojianduiawnjduiawndiawnudiua'
           - name: NODE_ENV
@@ -58,12 +50,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: task-manging-auth-srv
+  name: task-manging-board-srv
 spec:
   selector:
-    app: task-manging-auth
+    app: task-manging-board
   ports:
-    - name: task-manging-auth
+    - name: task-manging-board
       protocol: TCP
       port: 3000
       targetPort: 3000

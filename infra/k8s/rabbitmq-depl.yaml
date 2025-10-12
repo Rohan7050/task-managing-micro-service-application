@@ -20,6 +20,11 @@ spec:
           ports:
             - containerPort: 5672   # Messaging port
             - containerPort: 15672  # Management UI
+          readinessProbe:
+            tcpSocket:
+              port: 5672
+            initialDelaySeconds: 5
+            periodSeconds: 5
           env:
             - name: RABBITMQ_DEFAULT_USER
               value: "guest"

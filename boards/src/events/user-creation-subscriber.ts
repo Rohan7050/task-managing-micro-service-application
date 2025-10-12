@@ -1,11 +1,22 @@
 import { BaseSubscriber, UserCreatedEvent, Routingkey, Exchange } from "@rpticketsproject/task-managing-common";
 import { Channel, ConsumeMessage } from "amqplib";
+import { User } from "../model/user";
 
 export class UserCreationSubscriber extends BaseSubscriber<UserCreatedEvent> {
     routeKey: Routingkey.userCreated = Routingkey.userCreated;
     exchange: Exchange.user = Exchange.user;
-    async onMessage(data: any, msg: ConsumeMessage, channel: Channel): Promise<void> {
+    async onMessage(data: UserCreatedEvent['data'], msg: ConsumeMessage, channel: Channel): Promise<void> {
         console.log('======> ', data);
+        const {id, email} = data;
+        const isUserExist = await User.findOne({email});
+        if(isUserExist) {
+            channel.ack(msg);
+            return;
+        }
+        const user = User.build({
+            id, email
+        });
+        await user.save();
         channel.ack(msg);
     }   
 }

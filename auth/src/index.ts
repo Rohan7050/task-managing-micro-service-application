@@ -1,6 +1,5 @@
 import {app} from "./app";
 import { AppDataSource } from "./config/data-source";
-import amqp, { Channel, ChannelModel } from "amqplib";
 import { rabbitMQWrapper } from "./rabbitMQ-wrapper";
 
 const initializeServices = async () => {

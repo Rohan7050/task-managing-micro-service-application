@@ -2,6 +2,7 @@ apiVersion: skaffold/v4beta3
 kind: Config
 manifests:
   rawYaml:
+    - ./infra/k8s/rabbitmq-depl.yaml
     - ./infra/k8s/*
 build:
   local:
@@ -9,6 +10,14 @@ build:
   artifacts:
     - image: rohanpagare75/task-manging-auth
       context: auth
+      docker:
+        dockerfile: Dockerfile
+      sync:
+        manual:
+          - src: 'src/**/*.ts'
+            dest: .
+    - image: rohanpagare75/task-manging-board
+      context: boards
       docker:
         dockerfile: Dockerfile
       sync:

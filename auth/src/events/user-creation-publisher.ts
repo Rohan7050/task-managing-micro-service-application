@@ -1,5 +1,4 @@
 import { BasePublisher, UserCreatedEvent, Routingkey, Exchange } from "@rpticketsproject/task-managing-common";
-import amqp from "amqplib";
 
 export class UserCreationPublisher extends BasePublisher<UserCreatedEvent> {
     routeKey: Routingkey.userCreated = Routingkey.userCreated;

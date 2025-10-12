@@ -5,14 +5,14 @@ type AccessType = "read" | "write" | "admin";
 
 // Interface for attributes to create a record
 interface UserBoardAccessAttrs {
-  user: mongoose.Types.ObjectId; // Reference to User
+  user: string; // Reference to User
   board: mongoose.Types.ObjectId; // Reference to Board
   accessType: AccessType;
 }
 
 // Interface for document
 interface UserBoardAccessDoc extends mongoose.Document {
-  user: mongoose.Types.ObjectId;
+  user: string;
   board: mongoose.Types.ObjectId;
   accessType: AccessType;
   id: string;
@@ -27,7 +27,7 @@ interface UserBoardAccessModel extends mongoose.Model<UserBoardAccessDoc> {
 const userBoardAccessSchema = new mongoose.Schema(
   {
     user: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: String,
       ref: "User",
       required: true,
     },
@@ -45,7 +45,7 @@ const userBoardAccessSchema = new mongoose.Schema(
   {
     toJSON: {
       virtuals: true,
-      transform(doc, ret) {
+      transform(doc, ret: any) {
         ret.id = ret._id;
         delete ret._id;
         delete ret.__v;
