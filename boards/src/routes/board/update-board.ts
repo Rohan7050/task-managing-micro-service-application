@@ -5,13 +5,13 @@ import { Board } from "../../model/board";
 
 const router = express.Router();
 
-router.put("/api/board/:id", currentUser, requireAuth, hasAdminAccess, [
+router.put("/api/board", currentUser, requireAuth, hasAdminAccess, [
     body('name').isString().isLength({max: 20, min: 5}).withMessage("must be string, max 20 charactors and minimum 5 charactors"),
-    body('desc').optional().isString().withMessage("Must be string")
+    body('desc').optional().isString().withMessage("Must be string"),
+    body('board').isString().isMongoId().withMessage("invalid board id"),
 ], validateRequest, async (req: Request, res: Response) => {
     try {
-        const {name, desc} = req.body;
-        const id = req.params.id;
+        const {name, desc, board: id} = req.body;
         const board = await Board.findById(id);
         if(!board) {
             throw new BadRequestError("invalid Id");

@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 interface ListAttrs {
   name: string;
   desc: string;
+  order: number;
   board: mongoose.Types.ObjectId;
 }
 
@@ -16,6 +17,7 @@ interface ListModel extends mongoose.Model<ListDoc> {
 interface ListDoc extends mongoose.Document {
   name: string;
   desc: string;
+  order: number;
   board: mongoose.Types.ObjectId;
   id: mongoose.Types.ObjectId;
 }
@@ -29,6 +31,11 @@ const listSchema = new mongoose.Schema(
     },
     desc: {
       type: String,
+    },
+    order: {
+      type: Number,
+      require: true,
+      default: 0
     },
     board: {
         type: mongoose.Schema.Types.ObjectId,

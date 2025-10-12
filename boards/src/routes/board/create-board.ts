@@ -22,7 +22,7 @@ router.post("/api/board", currentUser, requireAuth, [
             accessType: 'admin'
         })
         await userBoardRel.save();
-        return res.status(201).send({ message: "success" });
+        return res.status(201).send({ message: "success", data: newBooard });
     }catch(e) {
         console.log(e);
         throw new BadRequestError("unable to create boaed.")

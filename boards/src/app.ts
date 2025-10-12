@@ -7,10 +7,13 @@ import {
   NotFoundError,
 } from "@rpticketsproject/task-managing-common";
 import { boardUserRouter } from "./routes/users/get-all-users";
-import { boardUpdateRouter } from "./routes/board/update-board";
 import { boardCreateRouter } from "./routes/board/create-board";
 import { boardGetallRouter } from "./routes/board/get-all-board";
 import { UserAccessRouter } from "./routes/users/user-can-access-board";
+import { createListRouter } from "./routes/list/create-list";
+import { boardUpdateRouter } from "./routes/board/update-board";
+import { updateListRouter } from "./routes/list/update-list";
+import { createCardRouter } from "./routes/card/create-card";
 
 dotenv.config();
 
@@ -28,9 +31,19 @@ app.use(
   })
 );
 
+// board routers
 app.use(boardUpdateRouter);
 app.use(boardCreateRouter);
 app.use(boardGetallRouter);
+
+// list routers
+app.use(createListRouter);
+app.use(updateListRouter);
+
+// card routers
+app.use(createCardRouter);
+
+// user routers
 app.use(boardUserRouter);
 app.use(UserAccessRouter);
 
