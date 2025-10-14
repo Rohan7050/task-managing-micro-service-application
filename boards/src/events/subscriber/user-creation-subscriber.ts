@@ -1,6 +1,6 @@
 import { BaseSubscriber, UserCreatedEvent, Routingkey, Exchange } from "@rpticketsproject/task-managing-common";
 import { Channel, ConsumeMessage } from "amqplib";
-import { User } from "../model/user";
+import { User } from "../../model/user";
 
 export class UserCreationSubscriber extends BaseSubscriber<UserCreatedEvent> {
     routeKey: Routingkey.userCreated = Routingkey.userCreated;

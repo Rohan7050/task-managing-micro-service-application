@@ -8,6 +8,7 @@ interface UserBoardAccessAttrs {
   user: string; // Reference to User
   board: mongoose.Types.ObjectId; // Reference to Board
   accessType: AccessType;
+  accept: boolean;
 }
 
 // Interface for document
@@ -16,6 +17,7 @@ interface UserBoardAccessDoc extends mongoose.Document {
   board: mongoose.Types.ObjectId;
   accessType: AccessType;
   id: string;
+  accept: boolean;
 }
 
 // Interface for model
@@ -41,6 +43,11 @@ const userBoardAccessSchema = new mongoose.Schema(
       enum: ["read", "write", "admin"],
       required: true,
     },
+    accept: {
+      type: Boolean,
+      require: true,
+      default: false
+    }
   },
   {
     toJSON: {

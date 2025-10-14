@@ -14,6 +14,9 @@ import { createListRouter } from "./routes/list/create-list";
 import { boardUpdateRouter } from "./routes/board/update-board";
 import { updateListRouter } from "./routes/list/update-list";
 import { createCardRouter } from "./routes/card/create-card";
+import { updateUserToBoardRouter } from "./routes/users/upadate-user-in-board";
+import { addUserToBoardRouter } from "./routes/users/add-user-to-board";
+import { acceptUserToBoardRouter } from "./routes/users/accept-user-to-board";
 
 dotenv.config();
 
@@ -46,6 +49,10 @@ app.use(createCardRouter);
 // user routers
 app.use(boardUserRouter);
 app.use(UserAccessRouter);
+app.use(addUserToBoardRouter);
+app.use(updateUserToBoardRouter);
+app.use(acceptUserToBoardRouter);
+
 
 app.use("/api/board/testing", (req, res) => {
   res

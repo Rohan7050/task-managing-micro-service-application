@@ -1,6 +1,6 @@
 import {app} from "./app";
 import { connectDB } from "./config/connect-db";
-import { UserCreationSubscriber } from "./events/user-creation-subscriber";
+import { UserCreationSubscriber } from "./events/subscriber/user-creation-subscriber";
 import { rabbitMQWrapper } from "./rabbitMQ-wrapper";
 
 const initializeServices = async () => {

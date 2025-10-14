@@ -19,7 +19,8 @@ router.post("/api/board", currentUser, requireAuth, [
         const userBoardRel = UserBoardAccess.build({
             user: req.currentUser!.id,
             board: newBooard!.id,
-            accessType: 'admin'
+            accessType: 'admin',
+            accept: true
         })
         await userBoardRel.save();
         return res.status(201).send({ message: "success", data: newBooard });

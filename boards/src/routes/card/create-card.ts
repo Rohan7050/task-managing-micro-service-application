@@ -10,6 +10,8 @@ import { body } from "express-validator";
 import { List } from "../../model/list";
 import { Card } from "../../model/card";
 import { DEFAULT_CARD_ORDER_OFFSET, DEFAULT_INITIAL_CARD_ORDER } from "../../config/constants";
+import { CardCreatedPublisher } from "../../events/publisher/card-creation-publisher";
+import { rabbitMQWrapper } from "../../rabbitMQ-wrapper";
 
 const router = express.Router();
 
@@ -84,6 +86,9 @@ router.post(
       board,
     });
     await card.save();
+    const cardPublisher = new CardCreatedPublisher(rabbitMQWrapper.channel);
+    await cardPublisher.init()
+    cardPublisher.publish({cardId: card.id});
     return res.status(201).send({ message: "success", data: card });
   }
 );
