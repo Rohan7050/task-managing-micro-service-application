@@ -11,9 +11,11 @@ const router = express.Router();
 
 router.post("/api/user/register", [
     body("email").isEmail().withMessage("Email must be valid."),
-    body("password").isLength({max: 20, min: 4}).withMessage("password must be between 4 to 20 charactors")
+    body("password").isLength({max: 20, min: 4}).withMessage("password must be between 4 to 20 charactors"),
+    body("firstname").isString().isLength({max: 20, min: 4}).withMessage("first name must be between 4 to 20 charactors"),
+    body("lastname").isString().isLength({max: 20, min: 4}).withMessage("last name must be between 4 to 20 charactors")
 ], validateRequest, async (req: Request, res: Response) => {
-  const { email, password } = req.body;
+  const { email, password, firstname, lastname } = req.body;
   const userRepository = AppDataSource.getRepository(User)
   const existingUser = await userRepository.findOneBy({ email });
   if (existingUser) {
@@ -23,6 +25,8 @@ router.post("/api/user/register", [
   const user = new User();
   user.email = email;
   user.password = password;
+  user.firstname = firstname;
+  user.lastname = lastname;
 
   const newUser = await userRepository.save(user);
   // emit event of user creation
