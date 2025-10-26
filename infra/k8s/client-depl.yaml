@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: task-manging-client-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: task-manging-client
+  template:
+    metadata:
+      labels:
+        app: task-manging-client
+    spec:
+      containers:
+        - name: task-manging-client
+          image: rohanpagare75/task-manging-client
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: task-manging-client-srv
+spec:
+  selector:
+    app: task-manging-client
+  ports:
+    - name: task-manging-client
+      protocol: TCP
+      port: 80
+      targetPort: 80
+

@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: task-manging-auth
+  name: task-manging-auth-depl
 spec:
   replicas: 1
   selector:
