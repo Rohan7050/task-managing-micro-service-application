@@ -1,4 +1,4 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import {
   Popover,
   PopoverButton,
@@ -13,7 +13,7 @@ import {
   SquaresPlusIcon,
 } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, PhoneIcon, PlayCircleIcon } from '@heroicons/react/20/solid'
-// import { useAuthStore } from "@/store/auth.store";
+import { useAuthStore } from "@/store/auth.store";
 
 // const navigation = [
 //   { name: 'Product', href: '#' },
@@ -35,9 +35,15 @@ const callsToAction = [
 ]
 
 function NavBar() {
-  // const {user} = useAuthStore();
+  const {user, logout} = useAuthStore();
+  const navigate = useNavigate();
   const location = useLocation(); // 👈 gives current route
   const currentPath = location.pathname;
+  const logoutHandler = () => {
+    logout();
+    navigate("/login")
+  }
+
   return (
     <header className="absolute bg-gray-900 inset-x-0 top-0 z-50">
         <nav aria-label="Global" className="flex items-center justify-between p-6 lg:px-8">
@@ -113,11 +119,16 @@ function NavBar() {
               </a>
             ))}
           </div> */}
-          <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+          {user 
+          ? <div className="lg:flex lg:flex-1 lg:justify-end">
+              <button onClick={() => logoutHandler()} type="button" className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2 ">Logout</button>
+            </div>
+          : <div className="hidden lg:flex lg:flex-1 lg:justify-end">
             <Link to={currentPath === "/login" ? '/register' : '/login'} className="text-sm/6 font-semibold text-white">
               {currentPath === "/login" ? 'Register' : 'Log in'} <span aria-hidden="true">&rarr;</span>
             </Link>
-          </div>
+          </div>}
+          
         </nav>
       </header>
   )
