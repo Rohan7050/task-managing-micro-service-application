@@ -1,20 +1,50 @@
 import { useState } from 'react';
 import { useForm, type SubmitHandler } from "react-hook-form";
-import { Link } from 'react-router-dom';
-import { registerSchema, type RegisterInputType } from '../../schema/registerSchema';
+import { Link, useNavigate } from 'react-router-dom';
+import { registerSchema, type RegisterInputType } from '@/schema/registerSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation } from '@tanstack/react-query';
+import { registerUser } from '@/api/endpoints/auth.api';
+import type { AxiosError } from 'axios';
+import toast from 'react-hot-toast';
+import { useAuthStore } from '@/store/auth.store';
 
 function RegisterPage() {
   const { register, handleSubmit, formState: { errors } } = useForm<RegisterInputType>({
     resolver: zodResolver(registerSchema)
   });
   const [showPasswordNotMatch, setShowPasswordNotMatch] = useState(false);
+  const {setAuth} = useAuthStore();
+  const navigate = useNavigate()
+  const {mutate: registerSubmit} = useMutation({
+    mutationFn: registerUser,
+    onSuccess: (data) => {
+      setAuth(data.data, true);
+      toast.success("Login successfully.");
+      navigate("/boards");
+      console.log("login", data);
+    },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    onError: (error: AxiosError<any>) => {
+      setAuth(null, false);
+      console.log("login err", error, error?.status);
+      if (error?.status === 400) {
+        const errMsg = error.response?.data && error.response.data?.error ? error.response.data.error[0].message : 'Invalid Request'
+        toast.error(errMsg);
+      } else if (error.response?.status === 404) {
+        toast.error("User not found");
+      } else {
+        toast.error("Something went wrong");
+      }
+    },
+  })
   const onSubmit: SubmitHandler<RegisterInputType> = (data) => {
     if(data.confirmpassword !== data.password){
       setShowPasswordNotMatch(true);
       return;
     }else {
       setShowPasswordNotMatch(false)
+      registerSubmit(data);
     }
     console.log(data)
   }

@@ -1,14 +1,44 @@
 import { useForm, type SubmitHandler } from "react-hook-form";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { loginSchema, type LoginInputType } from "../../schema/loginSchema";
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useAuthStore } from "@/store/auth.store";
+import { useMutation } from "@tanstack/react-query";
+import { loginUser } from "@/api/endpoints/auth.api";
+import toast from "react-hot-toast";
+import type { AxiosError } from "axios";
+
 
 function LoginPage() {
   const { register, handleSubmit, formState: { errors } } = useForm<LoginInputType>({
     resolver: zodResolver(loginSchema)
   });
+  const navigate = useNavigate();
+  const {setAuth} = useAuthStore();
+  const { mutate: login } = useMutation({
+    mutationFn: loginUser,
+    onSuccess: (data) => {
+      setAuth(data.data, true);
+      toast.success("Login successfully.");
+      navigate("/boards");
+      console.log("login", data);
+    },
+    onError: (error: AxiosError) => {
+      setAuth(null, false);
+      console.log("login err", error, error?.status);
+      if (error?.status === 400) {
+        toast.error("Invalid Credentials");
+      } else if (error.response?.status === 404) {
+        toast.error("User not found");
+      } else {
+        toast.error("Something went wrong");
+      }
+    },
+  });
+
   const onSubmit: SubmitHandler<LoginInputType> = (data) => {
-    console.log(data)
+    console.log(data);
+    login(data);
   }
 
   return (

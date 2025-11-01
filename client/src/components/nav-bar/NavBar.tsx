@@ -13,6 +13,7 @@ import {
   SquaresPlusIcon,
 } from '@heroicons/react/24/outline'
 import { ChevronDownIcon, PhoneIcon, PlayCircleIcon } from '@heroicons/react/20/solid'
+// import { useAuthStore } from "@/store/auth.store";
 
 // const navigation = [
 //   { name: 'Product', href: '#' },
@@ -34,6 +35,7 @@ const callsToAction = [
 ]
 
 function NavBar() {
+  // const {user} = useAuthStore();
   const location = useLocation(); // 👈 gives current route
   const currentPath = location.pathname;
   return (
@@ -51,7 +53,7 @@ function NavBar() {
           </div>
           <PopoverGroup className="hidden lg:flex lg:gap-x-12">
           <Popover className="relative">
-            <PopoverButton className="flex items-center gap-x-1 text-sm/6 font-semibold text-white">
+            <PopoverButton className="flex items-end gap-x-1 text-sm/6 font-semibold text-white">
               Product
               <ChevronDownIcon aria-hidden="true" className="size-5 flex-none text-gray-500" />
             </PopoverButton>
@@ -94,7 +96,7 @@ function NavBar() {
             </PopoverPanel>
           </Popover>
 
-          <a href="#" className="text-sm/6 font-semibold text-white">
+          {/* <a href="#" className="text-sm/6 font-semibold text-white">
             Features
           </a>
           <a href="#" className="text-sm/6 font-semibold text-white">
@@ -102,7 +104,7 @@ function NavBar() {
           </a>
           <a href="#" className="text-sm/6 font-semibold text-white">
             Company
-          </a>
+          </a> */}
         </PopoverGroup>
           {/* <div className="hidden lg:flex lg:gap-x-12">
             {navigation.map((item) => (

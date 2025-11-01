@@ -1,15 +1,15 @@
 function BoadsPage() {
-  const boardList = [
-    {
-        "user": "c6cc2b69-e474-4ce4-8b9f-b89d02dc8b79",
-        "name": "first board",
-        "desc": "",
-        "createdAt": "2025-10-26T08:43:34.401Z",
-        "updatedAt": "2025-10-26T08:43:34.401Z",
-        "id": "68fddf36bdf19932d78b8de5",
-        "accessType": "admin"
-    }
-  ]
+  // const boardList = [
+  //   {
+  //       "user": "c6cc2b69-e474-4ce4-8b9f-b89d02dc8b79",
+  //       "name": "first board",
+  //       "desc": "",
+  //       "createdAt": "2025-10-26T08:43:34.401Z",
+  //       "updatedAt": "2025-10-26T08:43:34.401Z",
+  //       "id": "68fddf36bdf19932d78b8de5",
+  //       "accessType": "admin"
+  //   }
+  // ]
   return (
     <div className="isolate px-6 py-24 sm:py-32 lg:px-8">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
