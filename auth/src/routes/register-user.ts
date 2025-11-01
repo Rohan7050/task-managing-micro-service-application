@@ -43,7 +43,7 @@ router.post("/api/user/register", [
     jwt: userJwt,
   };
 
-  return res.status(201).send({ message: "success" });
+  return res.status(201).send({ message: "success", data: {email, id: newUser.id} });
 });
 
 export { router as registerUserRouter };

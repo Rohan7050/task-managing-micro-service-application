@@ -35,7 +35,7 @@ router.post(
     req.session = {
       jwt: userJwt,
     };
-    return res.status(201).send({ message: "success" });
+    return res.status(201).send({ message: "success", data: {email, id: user.id} });
   }
 );
 
