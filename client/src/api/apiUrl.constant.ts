@@ -16,3 +16,14 @@ export const AuthApiUrl = {
     method: "GET",
   },
 };
+
+export const BoardApiUrl = {
+  getAllBoards: {
+    url: "/api/board",
+    method: "GET"
+  },
+  createBoard: {
+    url: "/api/board",
+    method: "POST"
+  }
+}
