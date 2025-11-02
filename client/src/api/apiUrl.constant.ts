@@ -25,5 +25,9 @@ export const BoardApiUrl = {
   createBoard: {
     url: "/api/board",
     method: "POST"
+  },
+  updateBoard: {
+    url: "/api/board",
+    method: "PUT"
   }
 }

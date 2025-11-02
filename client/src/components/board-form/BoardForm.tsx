@@ -10,7 +10,7 @@ interface BoardFormProps {
   name: string;
   desc: string;
   id: string;
-  mutate: (data: {name: string, desc: string}) => void
+  mutate: (data: { name: string; desc: string; id: string }) => void;
 }
 
 const BoardForm: React.FC<BoardFormProps> = ({ name, desc, id, mutate }) => {
@@ -27,12 +27,7 @@ const BoardForm: React.FC<BoardFormProps> = ({ name, desc, id, mutate }) => {
   });
 
   const onSubmit: SubmitHandler<BoardFormType> = (data) => {
-    if (id !== "") {
-      console.log("updatre", data);
-    } else {
-      console.log("create", data);
-      mutate(data);
-    }
+    mutate({ ...data, id });
   };
   return (
     <form onSubmit={handleSubmit(onSubmit)} action="#" method="POST">
@@ -43,7 +38,11 @@ const BoardForm: React.FC<BoardFormProps> = ({ name, desc, id, mutate }) => {
           </label>
           <div className="mt-2.5">
             <input
-              {...register("name", { maxLength: 20, minLength:5, required: true })}
+              {...register("name", {
+                maxLength: 20,
+                minLength: 5,
+                required: true,
+              })}
               type="text"
               name="name"
               placeholder="Enter Board Name"
