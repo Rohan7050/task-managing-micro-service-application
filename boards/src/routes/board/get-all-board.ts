@@ -9,7 +9,7 @@ const router = express.Router();
 router.get("/api/board", currentUser, requireAuth, async (req: Request, res: Response) => {
   try {
     const userId = req.currentUser!.id;
-    const allBoard = await UserBoardAccess.find({ user: userId })
+    const allBoard = await UserBoardAccess.find({ user: userId }).sort({createdAt: -1})
       .populate("board");
     const finalList = allBoard.map((board: any) => ({
         user: board.user,
