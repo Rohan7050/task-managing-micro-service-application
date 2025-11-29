@@ -8,11 +8,14 @@ import NotFoundPage from "./pages/not-found-page/NotFoundPage";
 import AuthGuard from "./guard/AuthGuard";
 import PreLoginGuard from "./guard/PreLoginGuard";
 import MainLayout from "./components/main-layout/MainLayout";
+import BoardDetailPage from "./pages/board-details-page/BoardDetailPage";
+import { boardLoader } from "./pages/board-details-page/boardDetailsLoader";
+import ErrorPage from "./pages/error-page/ErrorPage";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <MainLayout />, 
+    element: <MainLayout />,
     children: [
       {
         element: <PreLoginGuard />,
@@ -24,7 +27,10 @@ const router = createBrowserRouter([
       },
       {
         element: <AuthGuard />,
-        children: [{ path: "boards", element: <BoadsPage /> }],
+        children: [
+          { path: "boards", element: <BoadsPage /> },
+          { path: "boards/:id", element: <BoardDetailPage />, loader: boardLoader, errorElement: <ErrorPage/>},
+        ],
       },
       { path: "*", element: <NotFoundPage /> },
     ],

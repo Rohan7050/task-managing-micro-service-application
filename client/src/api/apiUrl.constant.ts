@@ -29,5 +29,13 @@ export const BoardApiUrl = {
   updateBoard: {
     url: "/api/board",
     method: "PUT"
+  },
+  boardAuth: {
+    url: "/api/board/user/auth",
+    method: "POST"
+  },
+  boardDetails: {
+    url: "/api/board/details",
+    method: "POST"
   }
 }

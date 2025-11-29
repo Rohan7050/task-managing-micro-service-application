@@ -15,3 +15,13 @@ export const createBoard = async (data: {name: string, desc: string, id: string}
         return boards.data;
     }
 }
+
+export const authenticateBoard = async (id: string) => {
+    const boards = await apiClient.post(BoardApiUrl.boardAuth.url, {boardId: id});
+    return boards.data;
+}
+
+export const getBoardDetails = async (board: string) => {
+    const boardDtl = await apiClient.post(BoardApiUrl.boardDetails.url, {board});
+    return boardDtl.data;
+}
