@@ -104,7 +104,7 @@ const BoardDetailPage = () => {
                 id: "000",
                 name: "",
                 desc: '',
-                board: ''
+                board: board!.id
               }} ></ListForm>
               : <div onClick={showListForm} className="w-full md:w-1/3 lg:w-1/5 me-6 shrink-0 h-[3rem] flex flex-row justify-center items-center cursor-pointer border-white rounded-lg bg-[#ffffff86]">
                 <PlusCircleIcon

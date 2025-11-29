@@ -1,7 +1,12 @@
+import { createList, updateList as updateListFn } from "@/api/endpoints/list.api";
 import { listSchema, type ListFormType } from "@/schema/listFormSchema";
+import { useBoardDetailsStore } from "@/store/boardDetails.store";
 import { useActiveListFormStore } from "@/store/list.store";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import type { AxiosError } from "axios";
 import { useForm, type SubmitHandler } from "react-hook-form";
+import toast from "react-hot-toast";
 
 interface ListFormProps {
   fullWidth?: boolean;
@@ -11,6 +16,8 @@ interface ListFormProps {
 
 const ListForm: React.FC<ListFormProps> = ({ fullWidth, listData }) => {
   console.log('listData', listData)
+  const { addNewList, updateList } = useBoardDetailsStore();
+
   const {
     register,
     handleSubmit,
@@ -23,13 +30,57 @@ const ListForm: React.FC<ListFormProps> = ({ fullWidth, listData }) => {
     },
   });
 
+  const { mutate: createNewList } = useMutation({
+    mutationFn: createList,
+    onSuccess: (data) => {
+      console.log('createNewList', data)
+      toast.success("Create new list");
+      addNewList({ ...data.data, cards: [] });
+      closeListForm();
+    },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    onError: (error: AxiosError<any>) => {
+      console.log("login err", error, error?.status);
+      if (error?.status === 400) {
+        const errMsg = error.response?.data && error.response.data?.error ? error.response.data.error[0].message : 'Invalid Request'
+        toast.error(errMsg);
+      } else {
+        toast.error("Something went wrong");
+      }
+      closeListForm();
+    },
+  })
+
+  const { mutate: updateCurList } = useMutation({
+    mutationFn: updateListFn,
+    onSuccess: (data) => {
+      console.log('updateCurList', data)
+      toast.success("Create new list");
+      updateList(data.data);
+      closeListForm();
+    },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    onError: (error: AxiosError<any>) => {
+      console.log("login err", error, error?.status);
+      if (error?.status === 400) {
+        const errMsg = error.response?.data && error.response.data?.error ? error.response.data.error[0].message : 'Invalid Request'
+        toast.error(errMsg);
+      } else {
+        toast.error("Something went wrong");
+      }
+      closeListForm();
+    },
+  })
+
   const onSubmit: SubmitHandler<ListFormType> = (data) => {
-    console.log({ ...data, id: listData.board });
+    if (listData.id === '000') {
+      createNewList({ name: data.name, desc: data.desc ?? '', board: listData.board })
+    } else {
+      updateCurList({ name: data.name, desc: data.desc ?? '', board: listData.board, id: listData.id })
+    }
   };
 
   const { closeListForm } = useActiveListFormStore()
-
-
 
   const handleClose = () => {
     closeListForm();

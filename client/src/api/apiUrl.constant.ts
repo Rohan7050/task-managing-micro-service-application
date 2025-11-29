@@ -17,6 +17,17 @@ export const AuthApiUrl = {
   },
 };
 
+export const ListApiUrl = {
+  createList: {
+    url: "/api/board/list",
+    method: "POST"
+  },
+  updateList: {
+    url: "/api/board/list",
+    method: "PUT"
+  }
+}
+
 export const BoardApiUrl = {
   getAllBoards: {
     url: "/api/board",
