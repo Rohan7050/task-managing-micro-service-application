@@ -1,6 +1,7 @@
 import {
   BadRequestError,
   currentUser,
+  NotAuthorizedError,
   requireAuth,
 } from "@rpticketsproject/task-managing-common";
 import { User } from "../../model/user";
@@ -30,7 +31,7 @@ router.post(
       board: boardId,
     });
     if (!access) {
-      throw new BadRequestError("Access Denied");
+      throw new NotAuthorizedError();
     }
     const boardToken = JWTToken.create(
       boardId,
